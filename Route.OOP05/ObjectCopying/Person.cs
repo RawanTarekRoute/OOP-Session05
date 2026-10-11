@@ -1,4 +1,7 @@
-﻿namespace Route.OOP05.ObjectCopying
+﻿using Route.OOP05.StaticClasses;
+using System.Runtime.CompilerServices;
+
+namespace Route.OOP05.ObjectCopying
 {
     internal class Person: ICloneable
     {
@@ -7,9 +10,25 @@
         public Address HomeAddress;
         public string[] phones;
 
+        private static int personCount;
+        public static string DefaultCity;
+
+        public static int TotalPeople
+        {
+            get { return personCount; }
+            set { personCount = value; }
+        }
+
         public Person()
         {
 
+        }
+
+        // by default is private
+        // has no any parameters
+        static Person()
+        {
+            DefaultCity = "Giza";
         }
 
         public Person(int age, string name, Address homeAddress)
@@ -18,6 +37,15 @@
             Name = name;
             HomeAddress = homeAddress;
             phones = [];
+            personCount++;
+           
+        }
+
+        // inside static block
+        // you can only access static members
+        public static Person CreatePerson()
+        {
+            return new Person(0, "unknown", new Address());
         }
 
         public Person (Person original)
@@ -61,6 +89,20 @@
 
 
         }
+
+        // inside instance members you can access
+        // 1. static members
+        // 2. instance members
+        public void Print()
+        {
+            Console.WriteLine(TotalPeople);
+            Console.WriteLine(Age);
+        }
+
+    }
+
+    class Employee : Person
+    {
 
     }
 }
